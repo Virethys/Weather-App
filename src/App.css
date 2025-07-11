@@ -4,6 +4,11 @@ body {
   margin: 0;
   padding: 0;
   color: black;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.fade-transition {
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 #root {
@@ -17,8 +22,10 @@ input {
   padding: 0.5rem;
   font-size: 1rem;
   margin-right: 0.5rem;
-  border: 1px solid #ccc;
+  border: 2px solid #000000;
   border-radius: 4px;
+  background-color: #f0f4f8;
+  color: black;
 }
 
 button {
@@ -26,19 +33,26 @@ button {
   font-size: 1rem;
   background-color: #000000;
   color: white;
-  border: none;
+  border: 2px solid #000000;
   border-radius: 4px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #303030;
 }
 
 h2 {
   margin-top: 1.5rem;
 }
 
+h3 {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+}
 p {
   font-size: 1.1rem;
   margin: 0.25rem 0;
@@ -99,13 +113,13 @@ body.dark {
 body.dark input {
   background-color: #1e1e1e;
   color: white;
-  border: 1px solid #444;
+  border: 2px solid #f8f8f8;
 }
 
 body.dark button {
-  background-color: #333;
-  color: white;
-  border: 1px solid #888;
+  background-color: #fafafa;
+  color: black;
+  border: 2px solid #f8f8f8;
 }
 
 body.dark .spinner {

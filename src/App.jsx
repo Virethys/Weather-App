@@ -75,6 +75,7 @@ function App() {
   return (
     <div>
       <h1>Weather App</h1>
+      <h3>Made by : Virethys</h3>
       <input
         type="text"
         value={city}
