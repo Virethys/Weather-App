@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function App() {
   const [city, setCity] = useState("");
+  const [error, setError] = useState(null);
   const [weather, setWeather] = useState(null);
 
   const handleSearch = () => {
@@ -13,11 +14,18 @@ function App() {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Weather data:", data);
-        setWeather(data);
+        if (data.cod === "404") {
+          setWeather(null);
+          setError("City not found, please try again.");
+        } else {
+          setWeather(data); //set the weather data if found
+          setError(null); //clear any previous error
+        }
       })
       .catch((error) => {
-        console.log("Error fetching weather: ", error);
+        console.error("Error fetching weather:", error); // log the error for debugging
+        setWeather(null);
+        setError("An error occurred. Please try again.");
       });
   };
 
@@ -31,6 +39,8 @@ function App() {
         onChange={(e) => setCity(e.target.value)}
       />
       <button onClick={handleSearch}>Search</button>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       {weather && (
         <div>
