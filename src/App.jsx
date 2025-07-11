@@ -7,10 +7,38 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [localTime, setLocalTime] = useState(null);
 
   useEffect(() => {
     document.body.classList.toggle("dark", darkMode);
   }, [darkMode]);
+
+  useEffect(() => {
+    if (!weather) return;
+
+    const updateTime = () => {
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const cityTime = new Date(utc + weather.timezone * 1000);
+
+      const formattedTime = cityTime.toLocaleString("en-US", {
+        weekday: "long", // e.g., Friday
+        day: "2-digit", // e.g., 12
+        month: "long", // e.g., July
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true, // AM/PM format
+      });
+
+      setLocalTime(formattedTime);
+    };
+
+    updateTime(); // Run immediately
+    const interval = setInterval(updateTime, 1000); // Update every second
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [weather]);
 
   const handleSearch = () => {
     if (!city) return; //if no city is entered, do nothing
@@ -47,6 +75,7 @@ function App() {
   return (
     <div>
       <h1>Weather App</h1>
+      <h3>Made by : Virethys</h3>
       <input
         type="text"
         value={city}
@@ -72,7 +101,11 @@ function App() {
 
       {weather && (
         <div>
-          <h2>{weather.name}</h2>
+          <h2>
+            {weather.name}
+            <br />
+            {localTime && <span className="weather-time">{localTime}</span>}
+          </h2>
           <img
             className="weather-icon"
             src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
