@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function App() {
   const [city, setCity] = useState("");
+  const [weather, setWeather] = useState(null);
 
   const handleSearch = () => {
     if (!city) return; //if no city is entered, do nothing
@@ -13,6 +14,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Weather data:", data);
+        setWeather(data);
       })
       .catch((error) => {
         console.log("Error fetching weather: ", error);
@@ -29,6 +31,14 @@ function App() {
         onChange={(e) => setCity(e.target.value)}
       />
       <button onClick={handleSearch}>Search</button>
+
+      {weather && (
+        <div>
+          <h2>{weather.name}</h2>
+          <p>Temperature: {weather.main.temp}°C</p>
+          <p>Condition: {weather.weather[0].description}</p>
+        </div>
+      )}
     </div>
   );
 }
