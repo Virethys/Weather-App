@@ -51,6 +51,11 @@ function App() {
         type="text"
         value={city}
         onChange={(e) => setCity(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleSearch();
+          }
+        }}
         placeholder="Enter city"
       />
       <button onClick={handleSearch}>Search</button>
