@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
@@ -6,6 +6,11 @@ function App() {
   const [error, setError] = useState(null);
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.toggle("dark", darkMode);
+  }, [darkMode]);
 
   const handleSearch = () => {
     if (!city) return; //if no city is entered, do nothing
@@ -51,6 +56,11 @@ function App() {
       <button onClick={handleSearch}>Search</button>
       <div className="search-spinner">
         {loading && <div className="spinner"></div>}
+      </div>
+      <div>
+        <button onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+        </button>
       </div>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
