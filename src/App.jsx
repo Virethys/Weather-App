@@ -13,6 +13,33 @@ function App() {
     document.body.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
+  useEffect(() => {
+    if (!weather) return;
+
+    const updateTime = () => {
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const cityTime = new Date(utc + weather.timezone * 1000);
+
+      const formattedTime = cityTime.toLocaleString("en-US", {
+        weekday: "long", // e.g., Friday
+        day: "2-digit", // e.g., 12
+        month: "long", // e.g., July
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true, // AM/PM format
+      });
+
+      setLocalTime(formattedTime);
+    };
+
+    updateTime(); // Run immediately
+    const interval = setInterval(updateTime, 1000); // Update every second
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [weather]);
+
   const handleSearch = () => {
     if (!city) return; //if no city is entered, do nothing
 
@@ -43,12 +70,6 @@ function App() {
         setWeather(null);
         setError("An error occurred. Please try again.");
       });
-  };
-
-  const getLocalTime = (timezoneOffset) => {
-    const now = new Date();
-    const localTime = new Date(now.getTime() + timezoneOffset * 1000);
-    return localTime.toLocaleString(); // returns "7/11/2025, 1:40:21 PM"
   };
 
   return (
@@ -82,9 +103,7 @@ function App() {
           <h2>
             {weather.name}
             <br />
-            <span className="weather-time">
-              {getLocalTime(weather.timezone)}
-            </span>
+            {localTime && <span className="weather-time">{localTime}</span>}
           </h2>
           <img
             className="weather-icon"
