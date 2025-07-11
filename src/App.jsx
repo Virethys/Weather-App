@@ -7,6 +7,7 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [localTime, setLocalTime] = useState(null);
 
   useEffect(() => {
     document.body.classList.toggle("dark", darkMode);
@@ -44,6 +45,12 @@ function App() {
       });
   };
 
+  const getLocalTime = (timezoneOffset) => {
+    const now = new Date();
+    const localTime = new Date(now.getTime() + timezoneOffset * 1000);
+    return localTime.toLocaleString(); // returns "7/11/2025, 1:40:21 PM"
+  };
+
   return (
     <div>
       <h1>Weather App</h1>
@@ -72,7 +79,13 @@ function App() {
 
       {weather && (
         <div>
-          <h2>{weather.name}</h2>
+          <h2>
+            {weather.name}
+            <br />
+            <span className="weather-time">
+              {getLocalTime(weather.timezone)}
+            </span>
+          </h2>
           <img
             className="weather-icon"
             src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}

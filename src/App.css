@@ -77,6 +77,11 @@ p {
   margin-top: 40px;
 }
 
+.weather-time {
+  font-size: 1rem;
+  color: black;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -108,4 +113,8 @@ body.dark .spinner {
 body.dark .weather-icon {
   background-color: #1e1e1e;
   border: 3px solid #555;
+}
+
+body.dark .weather-time {
+  color: white;
 }
