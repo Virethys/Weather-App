@@ -135,3 +135,27 @@ body.dark .weather-icon {
 body.dark .weather-time {
   color: white;
 }
+
+.forecast-container {
+  margin-top: 2rem;
+}
+
+.forecast-list {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.forecast-item {
+  background: #f0f0f0;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 80px;
+}
+
+body.dark .forecast-item {
+  background-color: #222;
+  color: white;
+}

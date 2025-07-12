@@ -5,6 +5,7 @@ function App() {
   const [city, setCity] = useState("");
   const [error, setError] = useState(null);
   const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState([]);
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [localTime, setLocalTime] = useState(null);
@@ -41,35 +42,41 @@ function App() {
   }, [weather]);
 
   const handleSearch = () => {
-    if (!city) return; //if no city is entered, do nothing
+    if (!city) return;
 
     setLoading(true);
     setError(null);
     setWeather(null);
+    setForecast([]); // Reset
 
     const apiKey = "8b6ceab7a83ad154b24228cec85d5bc5";
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    const currentURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
 
-    fetch(url)
-      .then((response) => response.json())
+    fetch(currentURL)
+      .then((res) => res.json())
       .then((data) => {
-        setTimeout(() => {
-          if (data.cod === "404") {
-            setError("City not found. Please try again.");
-            setWeather(null);
-          } else {
-            setWeather(data);
-            setError(null);
-          }
-          setLoading(false);
-        }, 1000); // wait 1 second before showing results
+        if (data.cod === "404") {
+          setError("City not found.");
+        } else {
+          setWeather(data);
+        }
+        setLoading(false);
       })
-
-      .catch((error) => {
-        console.error("Error fetching weather:", error); // log the error for debugging
-        setWeather(null);
-        setError("An error occurred. Please try again.");
+      .catch((err) => {
+        console.error("Error fetching weather:", err);
+        setError("Error occurred.");
+        setLoading(false);
       });
+
+    fetch(forecastURL)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.cod === "200") {
+          setForecast(data.list.slice(0, 5)); // next 5 time slots (each 3 hours)
+        }
+      })
+      .catch((err) => console.error("Forecast error:", err));
   };
 
   return (
@@ -113,6 +120,24 @@ function App() {
           />
           <p>Temperature: {weather.main.temp}°C</p>
           <p>Condition: {weather.weather[0].description}</p>
+          <p>Humidity: {weather.main.humidity}%</p>
+        </div>
+      )}
+      {forecast.length > 0 && (
+        <div className="forecast-container">
+          <h3>Upcoming Forecast</h3>
+          <div className="forecast-list">
+            {forecast.map((item, idx) => (
+              <div className="forecast-item" key={idx}>
+                <p>{new Date(item.dt_txt).getHours()}:00</p>
+                <img
+                  src={`https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
+                  alt="icon"
+                />
+                <p>{Math.round(item.main.temp)}°C</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
