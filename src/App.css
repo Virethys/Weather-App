@@ -1,23 +1,33 @@
+/* Base body styles and background transition */
 body {
   font-family: Arial, sans-serif;
-  background: #f0f4f8;
+  background: #f0f4f8; /* Default background color */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   margin: 0;
   padding: 0;
   color: black;
-  transition: background-color 0.5s ease, color 0.5s ease;
+  transition: background-image 0.6s ease-in-out, background-color 0.5s ease,
+    color 0.5s ease;
 }
 
+/* Body transition for fade effect */
 body.fade-transition {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+/* Main app container */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  position: relative;
+  z-index: 1; /* Ensure content is above overlay */
 }
 
+/* Input field styling */
 input {
   padding: 0.5rem;
   font-size: 1rem;
@@ -28,6 +38,7 @@ input {
   color: black;
 }
 
+/* Button styling */
 button {
   padding: 0.5rem 1rem;
   font-size: 1rem;
@@ -38,10 +49,12 @@ button {
   cursor: pointer;
 }
 
+/* Button hover effect */
 button:hover {
   background-color: #303030;
 }
 
+/* Heading and paragraph spacing */
 h2 {
   margin-top: 1.5rem;
 }
@@ -58,21 +71,24 @@ p {
   margin: 0.25rem 0;
 }
 
+/* Weather icon styling */
 .weather-icon {
   width: 120px;
   height: 120px;
-  background-color: #e0e0e0; /* soft grey background */
+  background-color: #e0e0e0;
   padding: 8px;
   border-radius: 50%;
-  border: 3px solid #333; /* stronger border */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* deeper shadow */
+  border: 3px solid #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
 }
 
+/* Weather icon hover effect */
 .weather-icon:hover {
   transform: scale(1.05);
 }
 
+/* Spinner container for loading */
 .search-spinner {
   display: flex;
   flex-direction: column;
@@ -81,6 +97,7 @@ p {
   gap: 1rem;
 }
 
+/* Spinner animation for loading */
 .spinner {
   width: 40px;
   height: 40px;
@@ -91,6 +108,7 @@ p {
   margin-top: 40px;
 }
 
+/* Local time display under city name */
 .weather-time {
   font-size: 1rem;
   color: rgb(0, 0, 0);
@@ -99,47 +117,56 @@ p {
   transition: color 0.3s ease;
 }
 
+/* Keyframes for spinner rotation */
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
 
+/* Dark mode body styles */
 body.dark {
   background-color: #121212;
   color: #fff;
 }
 
+/* Dark mode input styles */
 body.dark input {
   background-color: #1e1e1e;
   color: white;
   border: 2px solid #2b2b2b;
 }
 
+/* Dark mode button styles */
 body.dark button {
   background-color: #1e1e1e;
   color: white;
   border: 2px solid #2b2b2b;
 }
 
+/* Dark mode spinner styles */
 body.dark .spinner {
   border: 4px solid #444;
   border-top: 4px solid #ffffff;
 }
 
+/* Dark mode weather icon styles */
 body.dark .weather-icon {
   background-color: #1e1e1e;
   border: 3px solid #555;
 }
 
+/* Dark mode local time color */
 body.dark .weather-time {
   color: white;
 }
 
+/* Forecast container spacing */
 .forecast-container {
   margin-top: 2rem;
 }
 
+/* Forecast list layout */
 .forecast-list {
   display: flex;
   justify-content: center;
@@ -147,15 +174,67 @@ body.dark .weather-time {
   flex-wrap: wrap;
 }
 
+/* Individual forecast item styling */
 .forecast-item {
-  background: #f0f0f0;
+  background: #e0e0e0;
   padding: 1rem;
   border-radius: 8px;
   text-align: center;
   min-width: 80px;
 }
 
+/* Dark mode forecast item */
 body.dark .forecast-item {
   background-color: #222;
   color: white;
+}
+
+/* Overlay for background image fade effect */
+.bg-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+}
+
+/* Overlay fade-in effect */
+.bg-overlay.fade-in {
+  opacity: 1;
+}
+/* Overlay fade-out effect */
+.bg-overlay.fade-out {
+  opacity: 0;
+}
+
+/* Ensure root is above overlay */
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* Main content card styling */
+.content-card {
+  background-color: rgba(255, 255, 255, 0.75);
+  padding: 6rem;
+  border-radius: 16px;
+  max-width: 800px;
+  margin: 2rem auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  transition: background-color 2s ease, color 0.8s ease;
+  min-width: 400px;
+  min-height: 300px;
+}
+
+/* Dark mode for content card */
+.content-card.dark {
+  background-color: rgba(18, 18, 18, 0.8); /* Dark mode */
+  color: white;
+  transition: background-color 2s ease, color 0.8s ease;
 }
